@@ -1,7 +1,6 @@
 package com.example.readerapp.screens.stats
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -43,14 +42,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import com.example.readerapp.components.ReaderAppBar
-import com.example.readerapp.model.Item
 import com.example.readerapp.model.MBook
-import com.example.readerapp.navigation.ReaderScreens
 import com.example.readerapp.screens.home.HomeScreenViewModel
-import com.example.readerapp.screens.search.BookRow
 import com.example.readerapp.utils.formatDate
 import com.google.firebase.auth.FirebaseAuth
-import okhttp3.internal.filterList
 import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -115,8 +110,8 @@ fun ReaderStatsScreen(
                     ) {
                         Text(text = "Your Stats", style = MaterialTheme.typography.headlineSmall)
                         Divider()
-                        Text(text = "Your're reading: ${readingBooks.size} books")
-                        Text(text = "Your've read: ${readBooksList.size} books")
+                        Text(text = "Your are reading: ${readingBooks.size} books")
+                        Text(text = "You have read: ${readBooksList.size} books")
                     }
                 }
                 if (viewModel.data.value.loading == true) {
@@ -128,7 +123,7 @@ fun ReaderStatsScreen(
                             .fillMaxWidth()
                             .fillMaxHeight(), contentPadding = PaddingValues(16.dp)
                     ) {
-                        var readBooks: List<MBook> =
+                        val readBooks: List<MBook> =
                             if (!viewModel.data.value.data.isNullOrEmpty()) {
                                 viewModel.data.value.data!!.filter { mBook -> (mBook.userId == currentUser?.uid) && mBook.finishedReading != null }
                             } else {
@@ -164,7 +159,7 @@ fun BookRowStats(book: MBook) {
                         .fillMaxHeight()
                         .padding(end = 4.dp),
                 )
-                Column() {
+                Column {
                     Row(horizontalArrangement = Arrangement.SpaceBetween) {
                         Text(text = book.title.toString(), overflow = TextOverflow.Ellipsis)
                         if (book.rating!! >= 4) {
